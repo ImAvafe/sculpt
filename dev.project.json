@@ -1,0 +1,12 @@
+{
+	"name": "Sculpt",
+	"tree": {
+		"$className": "DataModel",
+		"ReplicatedStorage": {
+			"$className": "ReplicatedStorage",
+			"Sculpt": {
+				"$path": "lib"
+			}
+		}
+	}
+}

@@ -7,6 +7,15 @@
 			"Sculpt": {
 				"$path": "lib"
 			}
+		},
+		"StarterPlayer": {
+			"$className": "StarterPlayer",
+			"StarterPlayerScripts": {
+				"$className": "StarterPlayerScripts",
+				"Examples": {
+					"$path": "examples"
+				}
+			}
 		}
 	}
 }

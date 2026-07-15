@@ -1,66 +1,66 @@
-local Types = require("@self/PropertyTypes")
+-- local Types = require("@self/PropertyTypes")
 
-export type RuleProperties = Types.AllProperties
-export type RuleTransitions = { [string]: TweenInfo }
-export type RuleOptions = {
-	Properties: { [string]: any }?,
-	Transitions: RuleTransitions?,
-}
-export type StyleTokens = { [string]: string }
-export type SheetOptions = {
-	Rules: { StyleRule }?,
-	Tokens: {
-		[string]: any,
-	}?,
-}
+local function newRule(selector: string, props: { [string]: any })
+	assert(string.len(tostring(selector)), "You must provide a selector")
 
-local function Rule(Selector: string)
-	assert(string.len(tostring(Selector)), "You must provide a selector")
+	local styleRule = Instance.new("StyleRule")
+	styleRule.Selector = selector
 
-	return function(Options: RuleOptions)
-		local StyleRule = Instance.new("StyleRule")
+	local properties: { [string]: any } = {}
+	local transitions: { [string]: TweenInfo } = {}
+	local defaultTransition = nil
 
-		StyleRule.Selector = Selector
-
-		StyleRule:SetProperties(Options.Properties or {})
-		StyleRule:SetPropertyTransitions(Options.Transitions or {})
-
-		return StyleRule
-	end
-end
-
-local function Derive(Sheet: StyleSheet, Priority: number?)
-	local StyleDerive = Instance.new("StyleDerive")
-
-	StyleDerive.StyleSheet = Sheet
-
-	if Priority ~= nil then
-		StyleDerive.Priority = Priority
-	end
-
-	return StyleDerive
-end
-
-local function Sheet(Options: SheetOptions)
-	local StyleSheet = Instance.new("StyleSheet")
-
-	if Options.Rules ~= nil then
-		for _, Rule in Options.Rules do
-			Rule.Parent = StyleSheet
+	for key, value in props do
+		if key == "Transition" and type(value) == "table" then
+			for property, tweenInfo in value do
+				if property == "Default" then
+					defaultTransition = tweenInfo
+				else
+					transitions[property] = tweenInfo
+				end
+			end
+		else
+			properties[key] = value
 		end
 	end
 
-	if Options.Tokens ~= nil then
-		for Key, Value in Options.Tokens do
-			StyleSheet:SetAttribute(Key, Value)
-		end
+	styleRule:SetProperties(properties)
+	styleRule:SetPropertyTransitions(transitions)
+
+	if defaultTransition ~= nil then
+		styleRule:SetDefaultPropertyTransition(defaultTransition)
 	end
 
-	return StyleSheet
+	return styleRule
 end
 
-return {
-	rule = Rule,
-	derive = Derive,
-	sheet = Sheet,
-}
+local function newDerive(sheet: StyleSheet, priority: number?)
+	local styleDerive = Instance.new("StyleDerive")
+	styleDerive.StyleSheet = sheet
+
+	if priority ~= nil then
+		styleDerive.Priority = priority
+	end
+
+	return styleDerive
+end
+
+local function newSheet(rules: {
+	[string]: { [string]: any },
+})
+	local styleSheet = Instance.new("StyleSheet")
+
+	local tokens = rules.Tokens or {}
+	for key, value in tokens do
+		styleSheet:SetAttribute(key, value)
+	end
+	rules.Tokens = nil
+
+	for selector, props in rules do
+		newRule(selector, props).Parent = styleSheet
+	end
+
+	return styleSheet
+end
+
+return newSheet

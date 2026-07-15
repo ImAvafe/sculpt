@@ -6,16 +6,27 @@ You're familiar with the reactivity layer, usually provided by Fusion, React, or
 
 ## Style
 
-Define style sheets and their rules.
+Define and populate style sheets in declarative fashion.
 
 ```lua
-Style "TextButton:hover" {
-	Properties = {
-		BackgroundTransparency = 0.8,
-		BackgroundColor3 = Color3.fromRGB(255, 50, 50),
+Style {
+	Tokens = {
+		Primary = Color3.fromRGB(255, 100, 100),
+		PrimaryDark = Color3.fromRGB(240, 90, 90),
 	},
-	Transitions = {},
-	Tokens = {},
+	["TextButton"] = {
+		BackgroundColor3 = "$Primary",
+		BackgroundTransparency = 0,
+		TextSize = 16,
+		AutomaticSize = Enum.AutomaticSize.XY,
+		AutoButtonColor = false,
+		Transition = {
+			BackgroundColor3 = TweenInfo.new(0.15, Enum.EasingStyle.Cubic),
+		},
+	},
+	["TextButton:Hover"] = {
+		BackgroundColor3 = "$PrimaryDark",
+	},
 }
 ```
 

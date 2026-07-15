@@ -4,7 +4,7 @@ Portable UI toolkit for Roblox
 
 You're familiar with the reactivity layer, usually provided by Fusion, React, or whichever rebel is newest on the block. Sculpt provides the visual layer; a framework-agnostic collection of packages for making your UI beautiful.
 
-## Style
+## `Style`
 
 Define and populate style sheets in declarative fashion.
 
@@ -30,7 +30,7 @@ Style {
 }
 ```
 
-## Theme
+## `Theme`
 
 Generate tokenized themes.
 
@@ -40,18 +40,15 @@ Theme {
 }
 ```
 
-## Base
+## `Palette`
 
-Unstyled components, a blank canvas for your own design.
+Tailwind's famous color palette, prepackaged.
 
 ```lua
-BaseButton {
-	Name = "Button",
-	StyleLink = ButtonStyle,
-}
+BackgroundColor3 = Color.Violet["500"]
 ```
 
-## Skin
+## `Skin`
 
 Skin your components with fully custom 9-slice images.
 
@@ -63,10 +60,15 @@ Skin {
 }
 ```
 
-## Color
+## `Base`
 
-Tailwind's famous color palette, prepackaged.
+Unstyled components, a blank canvas for your own design.
+
+🤔 Might separate this out into its own repository. Not sure yet.
 
 ```lua
-BackgroundColor3 = Color.Violet["500"]
+BaseButton {
+	Name = "Button",
+	StyleLink = ButtonStyle,
+}
 ```

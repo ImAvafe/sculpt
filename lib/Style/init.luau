@@ -50,12 +50,21 @@ local function newSheet(rules: {
 })
 	local styleSheet = Instance.new("StyleSheet")
 
+	-- Set attribute tokens
 	local tokens = rules.Tokens or {}
 	for key, value in tokens do
 		styleSheet:SetAttribute(key, value)
 	end
 	rules.Tokens = nil
 
+	-- Derive from other style sheets
+	local derives = rules.Derives or {}
+	for _, derive in derives do
+		newDerive(derive.StyleSheet, derive.Priority).Parent = styleSheet
+	end
+	rules.Derives = nil
+
+	-- Apply style rules
 	for selector, props in rules do
 		newRule(selector, props).Parent = styleSheet
 	end

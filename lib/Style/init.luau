@@ -1,13 +1,29 @@
 local Types = require("@self/PropertyTypes")
 
-export type Properties = {
-	[string]: (Types.AllProperties?) & ({ Transition: { [string]: TweenInfo, Default: TweenInfo? } }?),
+export type Attribute =
+	number
+	| string
+	| boolean
+	| Color3
+	| BrickColor
+	| ColorSequence
+	| CFrame
+	| Vector2
+	| Vector3
+	| UDim
+	| UDim2
+	| Font
+	| NumberSequence
+	| NumberRange
+	| Rect
+export type Tokens = {
+	[string]: Attribute,
 }
-export type Tokens = { [string]: any }
 export type Derives = { { Sheet: StyleSheet?, Priority: number? } }
-export type SheetProperties = (Properties?) & ({ Tokens: Tokens? }?) & ({ Derives: Derives? }?) & {}
+export type Rule = Types.AllProperties & { Transition: { [string]: TweenInfo }? }
+export type SheetProperties = { [string]: Rule, Tokens: Tokens?, Derives: Derives? }
 
-local function newRule(selector: string, props: Properties)
+local function newRule(selector: string, props: { [string]: Rule })
 	assert(string.len(tostring(selector)), "You must provide a selector")
 
 	local styleRule = Instance.new("StyleRule")
@@ -71,7 +87,7 @@ local function newSheet(props: SheetProperties)
 
 	-- Apply style rules
 	for selector, props in props do
-		newRule(selector, props).Parent = styleSheet
+		newRule(selector, props :: { [string]: Rule }).Parent = styleSheet
 	end
 
 	return styleSheet

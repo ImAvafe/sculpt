@@ -16,6 +16,8 @@ export type Attribute =
 	| NumberSequence
 	| NumberRange
 	| Rect
+	| Enum
+	| EnumItem
 export type Tokens = {
 	[string]: Attribute,
 }

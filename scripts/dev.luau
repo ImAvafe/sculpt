@@ -1,3 +1,6 @@
+--!nocheck
+--!nolint
+
 local process = require("@lune/process")
 local task = require("@lune/task")
 

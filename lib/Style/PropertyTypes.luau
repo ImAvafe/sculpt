@@ -2,10 +2,9 @@ export type InstanceProperties = {
 	Archivable: boolean?,
 	Name: string?,
 	Parent: Instance?,
-	[string]: any,
 }
 
-export type GuiObjectProperties = {
+export type GuiObjectProperties = CommonUIProperties & {
 	Active: boolean?,
 	AnchorPoint: Vector2?,
 	AutomaticSize: Enum.AutomaticSize?,
@@ -19,21 +18,17 @@ export type GuiObjectProperties = {
 	Interactable: boolean?,
 	LayoutOrder: number?,
 	Position: UDim2?,
-	Rotation: number?,
 	Selectable: boolean?,
 	SelectionOrder: number?,
 	Size: UDim2?,
 	SizeConstraint: Enum.SizeConstraint?,
-	Transparency: number?,
-	Visible: boolean?,
-	ZIndex: number?,
 }
 
 export type GuiButtonProperties = {
 	AutoButtonColor: boolean?,
 }
 
-export type TextLabelProperties = {
+export type TextProperties = {
 	Font: Enum.Font?,
 	FontFace: Font?,
 	LineHeight: number?,
@@ -54,34 +49,34 @@ export type TextLabelProperties = {
 	TextYAlignment: Enum.TextYAlignment?,
 }
 
-export type TextButtonProperties = {
-	Font: Enum.Font?,
-	FontFace: Font?,
-	LineHeight: number?,
-	MaxVisibleGraphemes: number?,
-	OpenTypeFeatures: string?,
-	RichText: boolean?,
-	Text: string?,
-	TextColor3: Color3?,
-	TextDirection: Enum.TextDirection?,
-	TextScaled: boolean?,
-	TextSize: number?,
-	TextStrokeColor3: Color3?,
-	TextStrokeTransparency: number?,
-	TextTransparency: number?,
-	TextTruncate: Enum.TextTruncate?,
-	TextWrapped: boolean?,
-	TextXAlignment: Enum.TextXAlignment?,
-	TextYAlignment: Enum.TextYAlignment?,
-}
-
-export type ImageLabelProperties = {
-	Image: string?,
+export type CommonImageProperties = {
 	ImageColor3: Color3?,
+	ImageTransparency: number?,
+}
+
+export type CommonUIProperties = {
+	Visible: boolean?,
+	Thickness: number?,
+	Transparency: number? | NumberSequence?,
+	ZIndex: number?,
+	Color: Color3? | ColorSequence?,
+	Enabled: boolean?,
+	Rotation: number?,
+	Offset: UDim2? | Vector2?,
+	ItemLineAlignment: Enum.ItemLineAlignment?,
+	Padding: UDim?,
+}
+
+export type CommonSizeProperties = {
+	MaxSize: number?,
+	MinSize: number?,
+}
+
+export type ImageProperties = CommonImageProperties & {
+	Image: string?,
 	ImageContent: Content?,
 	ImageRectOffset: Vector2?,
 	ImageRectSize: Vector2?,
-	ImageTransparency: number?,
 	ResampleMode: Enum.ResamplerMode?,
 	ScaleType: Enum.ScaleType?,
 	SliceCenter: Rect?,
@@ -89,22 +84,11 @@ export type ImageLabelProperties = {
 	TileSize: UDim2?,
 }
 
-export type ImageButtonProperties = {
+export type ImageButtonProperties = ImageProperties & {
 	HoverImage: string?,
 	HoverImageContent: Content?,
-	Image: string?,
-	ImageColor3: Color3?,
-	ImageContent: Content?,
-	ImageRectOffset: Vector2?,
-	ImageRectSize: Vector2?,
-	ImageTransparency: number?,
 	PressedImage: string?,
 	PressedImageContent: Content?,
-	ResampleMode: Enum.ResamplerMode?,
-	ScaleType: Enum.ScaleType?,
-	SliceCenter: Rect?,
-	SliceScale: number?,
-	TileSize: UDim2?,
 }
 
 export type TextBoxProperties = {
@@ -136,20 +120,15 @@ export type ScrollingFrameProperties = {
 	VerticalScrollBarPosition: Enum.VerticalScrollBarPosition?,
 }
 
-export type ViewportFrameProperties = {
+export type ViewportFrameProperties = CommonImageProperties & {
 	Ambient: Color3?,
-	ImageColor3: Color3?,
-	ImageTransparency: number?,
 	LightColor: Color3?,
 	LightDirection: Vector3?,
 }
 
-export type Path2DProperties = {
+export type Path2DProperties = CommonUIProperties & {
 	Closed: boolean?,
 	Color3: Color3?,
-	Thickness: number?,
-	Visible: boolean?,
-	ZIndex: number?,
 }
 
 export type CanvasGroupProperties = {
@@ -165,14 +144,6 @@ export type UICornerProperties = {
 	TopRightRadius: UDim?,
 }
 
-export type UIGradientProperties = {
-	Color: ColorSequence?,
-	Enabled: boolean?,
-	Offset: Vector2?,
-	Rotation: number?,
-	Transparency: NumberSequence?,
-}
-
 export type UIPaddingProperties = {
 	PaddingBottom: UDim?,
 	PaddingLeft: UDim?,
@@ -180,29 +151,19 @@ export type UIPaddingProperties = {
 	PaddingTop: UDim?,
 }
 
-export type UIShadowProperties = {
+export type UIShadowProperties = CommonUIProperties & {
 	BlurRadius: UDim?,
-	Color: Color3?,
-	Offset: UDim2?,
 	Spread: UDim2?,
-	Transparency: number?,
-	ZIndex: number?,
 }
 
-export type UIStrokeProperties = {
+export type UIStrokeProperties = CommonUIProperties & {
 	ApplyStrokeMode: Enum.ApplyStrokeMode?,
-	Color: Color3?,
-	Enabled: boolean?,
 	LineJoinMode: Enum.LineJoinMode?,
-	Thickness: number?,
-	Transparency: number?,
 }
 
-export type UIListLayoutProperties = {
+export type UIListLayoutProperties = CommonUIProperties & {
 	HorizontalFlex: Enum.UIFlexAlignment?,
 	HorizontalPadding: UDim?,
-	ItemLineAlignment: Enum.ItemLineAlignment?,
-	Padding: UDim?,
 	VerticalFlex: Enum.UIFlexAlignment?,
 	VerticalPadding: UDim?,
 	Wraps: boolean?,
@@ -222,13 +183,12 @@ export type UIGridLayoutProperties = {
 	StartCorner: Enum.StartCorner?,
 }
 
-export type UIPageLayoutProperties = {
+export type UIPageLayoutProperties = CommonUIProperties & {
 	Animated: boolean?,
 	Circular: boolean?,
 	EasingDirection: Enum.EasingDirection?,
 	EasingStyle: Enum.EasingStyle?,
 	GamepadInputEnabled: boolean?,
-	Padding: UDim?,
 	ScrollWheelInputEnabled: boolean?,
 	TouchInputEnabled: boolean?,
 	TweenTime: number?,
@@ -240,11 +200,6 @@ export type UIAspectRatioConstraintProperties = {
 	DominantAxis: Enum.DominantAxis?,
 }
 
-export type UISizeConstraintProperties = {
-	MaxSize: Vector2?,
-	MinSize: Vector2?,
-}
-
 export type UITextSizeConstraintProperties = {
 	MaxTextSize: number?,
 	MinTextSize: number?,
@@ -254,17 +209,14 @@ export type UIScaleProperties = {
 	Scale: number?,
 }
 
-export type UIFlexItemProperties = {
+export type UIFlexItemProperties = CommonUIProperties & {
 	FlexMode: Enum.UIFlexMode?,
 	GrowRatio: number?,
-	ItemLineAlignment: Enum.ItemLineAlignment?,
 	ShrinkRatio: number?,
 }
 
-export type StyleQueryProperties = {
+export type StyleQueryProperties = CommonSizeProperties & {
 	AspectRatioRange: NumberRange?,
-	MaxSize: Vector2?,
-	MinSize: Vector2?,
 	PreferredInputType: Enum.PreferredInput?,
 	ReduceMotionEnabled: boolean?,
 	ViewportDisplaySize: Enum.DisplaySize?,
@@ -272,11 +224,11 @@ export type StyleQueryProperties = {
 
 export type AllProperties =
 	InstanceProperties
+	& CommonSizeProperties
 	& GuiObjectProperties
 	& GuiButtonProperties
-	& TextLabelProperties
-	& TextButtonProperties
-	& ImageLabelProperties
+	& TextProperties
+	& ImageProperties
 	& ImageButtonProperties
 	& TextBoxProperties
 	& ScrollingFrameProperties
@@ -284,7 +236,6 @@ export type AllProperties =
 	& Path2DProperties
 	& CanvasGroupProperties
 	& UICornerProperties
-	& UIGradientProperties
 	& UIPaddingProperties
 	& UIShadowProperties
 	& UIStrokeProperties
@@ -293,7 +244,6 @@ export type AllProperties =
 	& UIGridLayoutProperties
 	& UIPageLayoutProperties
 	& UIAspectRatioConstraintProperties
-	& UISizeConstraintProperties
 	& UITextSizeConstraintProperties
 	& UIScaleProperties
 	& UIFlexItemProperties

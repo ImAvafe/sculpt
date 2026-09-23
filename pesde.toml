@@ -22,4 +22,4 @@ rojo = { name = "pesde/rojo", version = "^7.5.1", target = "lune" }
 
 [engines]
 pesde = "^0.7.0"
-lune = "^0.10.2"
+lune = "^0.10.5"

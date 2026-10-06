@@ -1,4 +1,4 @@
-local Types = require("@self/PropertyTypes")
+export type Derives = { { Sheet: StyleSheet?, Priority: number? } }
 
 export type Attribute =
 	number
@@ -21,11 +21,14 @@ export type Attribute =
 export type Tokens = {
 	[string]: Attribute,
 }
-export type Derives = { { Sheet: StyleSheet?, Priority: number? } }
-export type Rule = Types.AllProperties & { Transition: { [string]: TweenInfo }? }
+
+export type Computed<Type> = (Tokens) -> Type
+export type RuleProperty = any | string | Computed<any>
+export type Rule = { [string]: RuleProperty?, Transition: { [string]: TweenInfo | Computed<TweenInfo> }? }
+
 export type SheetProperties = { [string]: Rule, Tokens: Tokens?, Derives: Derives? }
 
-local function newRule(selector: string, props: { [string]: Rule })
+local function newRule(selector: string, props: { [string]: Rule }, tokens: Tokens?)
 	assert(string.len(tostring(selector)), "You must provide a selector")
 
 	local styleRule = Instance.new("StyleRule")
@@ -45,7 +48,15 @@ local function newRule(selector: string, props: { [string]: Rule })
 				end
 			end
 		else
-			properties[key] = value
+			if type(value) == "function" then
+				if tokens ~= nil then
+					properties[key] = value(tokens)
+				else
+					warn("Token constructor used in", styleRule, "with no tokens passed")
+				end
+			else
+				properties[key] = value
+			end
 		end
 	end
 
@@ -54,6 +65,10 @@ local function newRule(selector: string, props: { [string]: Rule })
 
 	if defaultTransition ~= nil then
 		styleRule:SetDefaultPropertyTransition(defaultTransition)
+	end
+
+	if #styleRule.SelectorError > 0 then
+		warn(styleRule, "has SelectorError:", styleRule.SelectorError)
 	end
 
 	return styleRule
@@ -88,8 +103,8 @@ local function newSheet(props: SheetProperties)
 	props.Derives = nil
 
 	-- Apply style rules
-	for selector, props in props do
-		newRule(selector, props :: { [string]: Rule }).Parent = styleSheet
+	for selector, prop in props do
+		newRule(selector, prop :: { [string]: Rule }, tokens).Parent = styleSheet
 	end
 
 	return styleSheet

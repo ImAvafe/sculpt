@@ -4,69 +4,72 @@ Portable UI toolkit for Roblox
 
 You're familiar with the reactivity layer, usually provided by Fusion, React, or whichever rebel is newest on the block. Sculpt provides the visual layer; a framework-agnostic collection of packages for making your UI beautiful.
 
-## `Style`
+> [!WARNING]
+> These tools are subject to change at a whim. To install a utility, copy its source code into your project. Feel free to submit PRs!
+
+## `style`
 
 Define and populate style sheets in declarative fashion.
 
-```lua
-Style {
-	Tokens = {
-		Primary = Color3.fromRGB(255, 100, 100),
-		PrimaryDark = Color3.fromRGB(240, 90, 90),
-	},
+```luau
+const myTheme = {
+	Primary = Color3.fromRGB(255, 100, 100),
+	FontSansSerif = "rbxassetid://16658221428",
+	-- and many more...
+}
+
+style {
+	Tokens = myTheme,
+
 	["TextButton"] = {
 		BackgroundColor3 = "$Primary",
 		BackgroundTransparency = 0,
 		TextSize = 16,
+		FontFace = function(tokens: typeof(myTheme))
+			return Font.new(tokens.FontSansSerif)
+		end,
 		AutomaticSize = Enum.AutomaticSize.XY,
 		AutoButtonColor = false,
 		Transition = {
 			BackgroundColor3 = TweenInfo.new(0.15, Enum.EasingStyle.Cubic),
 		},
 	},
-	["TextButton:Hover"] = {
-		BackgroundColor3 = "$PrimaryDark",
-	},
 }
 ```
 
-## `Theme`
+## `theme`
 
 Generate tokenized themes.
 
-```lua
-Theme {
+```luau
+theme {
 	-- List theming properties here
 }
 ```
 
-## `Palette`
+## Concepts
 
-Tailwind's famous color palette, prepackaged.
+Anything within this section is conceptual and undeveloped.
 
-```lua
-BackgroundColor3 = Color.Violet["500"]
-```
-
-## `Skin`
+### `skin`
 
 Skin your components with fully custom 9-slice images.
 
-```lua
-Skin {
+```luau
+skin {
 	Image = "rbxassetid://nil",
 
 	-- Your children here
 }
 ```
 
-## `Base`
+### `base`
 
 Unstyled components, a blank canvas for your own design.
 
 🤔 Might separate this out into its own repository. Not sure yet.
 
-```lua
+```luau
 BaseButton {
 	Name = "Button",
 	StyleLink = ButtonStyle,

@@ -1,3 +1,7 @@
+--!nocheck
+--!nolint
+--!nonstrict
+
 type function stringify_preview(input: type)
 	return `\n> {string.gsub(stringify(input), "\n", "\n> ")}`
 end

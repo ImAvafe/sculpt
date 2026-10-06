@@ -1,35 +1,40 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local Style = require(ReplicatedStorage.Sculpt.Style)
-local Theme = require(ReplicatedStorage.Sculpt.Theme)
-local merge = require("./merge")
+local style = require(ReplicatedStorage.Sculpt.Style)
+local theme = require(ReplicatedStorage.Sculpt.Theme)
+local mergeTables = require("./mergeTables")
 
 local screenGui = Instance.new("ScreenGui")
 local styleLink = Instance.new("StyleLink")
 local button = Instance.new("TextButton")
 
-local theme = Theme {}
+const myTheme = mergeTables(theme.primitives({}), theme.semantics({}))
 
-local styleSheet = Style {
-	Tokens = merge(theme, {
-		Primary = Color3.fromRGB(255, 100, 100),
-		PrimaryDark = Color3.fromRGB(240, 90, 90),
-	}),
+const styleSheet = style {
+	Tokens = myTheme,
+
 	["TextButton"] = {
 		BackgroundColor3 = "$Primary",
+		TextColor3 = "$PrimaryContent",
+		TextSize = "$TextBase",
+		FontFace = function(tokens: typeof(myTheme))
+			return Font.new(tokens.FontSansSerif)
+		end,
 		BackgroundTransparency = 0,
-		TextSize = "$TextLg",
 		AutomaticSize = Enum.AutomaticSize.XY,
-		AutoButtonColor = false,
-		Transition = {
-			BackgroundColor3 = TweenInfo.new(0.15, Enum.EasingStyle.Cubic),
-		},
 	},
-	["TextButton:Hover"] = {
-		BackgroundColor3 = "$PrimaryDark",
+	["TextButton::UIPadding"] = {
+		PaddingLeft = UDim.new(0, 8),
+		PaddingRight = UDim.new(0, 8),
+		PaddingTop = UDim.new(0, 6),
+		PaddingBottom = UDim.new(0, 6),
+	},
+	["TextButton::UICorner"] = {
+		CornerRadius = UDim.new(0, 6),
 	},
 }
+
 styleSheet.Parent = screenGui
 
 styleLink.StyleSheet = styleSheet

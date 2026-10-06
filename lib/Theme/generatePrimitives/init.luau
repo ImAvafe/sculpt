@@ -1,6 +1,6 @@
-local Partial = require("@self/partial")
+const Partial = require("./partial")
 
-export type Theme = {
+export type Primitives = {
 	Size3Xs: number,
 	Size2Xs: number,
 	SizeXs: number,
@@ -66,6 +66,10 @@ export type Theme = {
 	TransparencyLight: number,
 	TransparencyXLight: number,
 	TransparencyNone: number,
+
+	FontSansSerif: string,
+	FontSerif: string,
+	FontMono: string,
 
 	[string]: any,
 }
@@ -144,52 +148,64 @@ const TRANSPARENCY_SCALE: { [string]: number } = {
 	TransparencyNone = 0,
 }
 
-const function generatePrimitives(input: Partial.Partial<Theme>): Theme
-	local theme = {}
+const FONT_DEFAULTS: { [string]: string } = {
+	FontSansSerif = "rbxassetid://16658221428",
+	FontSerif = "rbxassetid://12187606624",
+	FontMono = "rbxassetid://16658246179",
+}
+
+const function generatePrimitives(input: Partial.Partial<Primitives>): Primitives
+	local primitives = table.clone(input)
 
 	for token, multiplier in SIZE_SCALE do
 		if input[token] == nil then
-			theme[token] = math.floor((input.SizeBase or 448) * multiplier)
+			primitives[token] = math.floor((input.SizeBase or 448) * multiplier)
 		end
 	end
 
 	for token, multiplier in SPACING_SCALE do
 		if input[token] == nil then
-			theme[token] = math.floor((input.SpaceBase or 12) * multiplier)
+			primitives[token] = math.floor((input.SpaceBase or 12) * multiplier)
 		end
 	end
 
 	for token, multiplier in TEXT_SCALE do
 		if input[token] == nil then
-			theme[token] = math.floor((input.TextBase or 16) * multiplier)
+			primitives[token] = math.floor((input.TextBase or 16) * multiplier)
 		end
 	end
 
 	for token, multiplier in WEIGHT_SCALE do
 		if input[token] == nil then
-			theme[token] = math.floor((input.WeightBase or 1) * multiplier)
+			primitives[token] = math.floor((input.WeightBase or 1) * multiplier)
 		end
 	end
 
 	for token, multiplier in RADIUS_SCALE do
 		if input[token] == nil then
-			theme[token] = math.floor((input.RadiusBase or 6) * multiplier)
+			primitives[token] = math.floor((input.RadiusBase or 6) * multiplier)
 		end
 	end
 
 	for token, multiplier in STROKE_SCALE do
 		if input[token] == nil then
-			theme[token] = math.floor((input.StrokeBase or 1) * multiplier)
+			primitives[token] = math.floor((input.StrokeBase or 1) * multiplier)
 		end
 	end
 
 	for token, multiplier in TRANSPARENCY_SCALE do
 		if input[token] == nil then
-			theme[token] = math.floor((input.TransparencyBase or 1) * multiplier)
+			primitives[token] = math.floor((input.TransparencyBase or 1) * multiplier)
 		end
 	end
 
-	return theme
+	for token, assetId in FONT_DEFAULTS do
+		if input[token] == nil then
+			primitives[token] = assetId
+		end
+	end
+
+	return primitives :: Primitives
 end
 
 return generatePrimitives

@@ -47,31 +47,17 @@ theme {
 }
 ```
 
-## Concepts
-
-Anything within this section is conceptual and undeveloped.
-
 ### `skin`
 
 Skin your components with fully custom 9-slice images.
+
+> [!WARNING]
+> This one is entirely conceptual and undeveloped!
 
 ```luau
 skin {
 	Image = "rbxassetid://nil",
 
 	-- Your children here
-}
-```
-
-### `base`
-
-Unstyled components, a blank canvas for your own design.
-
-🤔 Might separate this out into its own repository. Not sure yet.
-
-```luau
-BaseButton {
-	Name = "Button",
-	StyleLink = ButtonStyle,
 }
 ```

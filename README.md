@@ -47,6 +47,19 @@ theme {
 }
 ```
 
+## `utilityClasses`
+
+Tailwind-like utility classes.
+
+[ongoing research document](lib/UtilityClasses/research.md)
+
+> [!WARNING]
+> This one is entirely conceptual and undeveloped!
+
+```luau
+no example yet
+```
+
 ### `skin`
 
 Skin your components with fully custom 9-slice images.

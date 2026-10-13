@@ -177,25 +177,25 @@ const function generatePrimitives(input: Partial.Partial<Primitives>): Primitive
 
 	for token, multiplier in WEIGHT_SCALE do
 		if input[token] == nil then
-			primitives[token] = math.floor((input.WeightBase or 1) * multiplier)
+			primitives[token] = (input.WeightBase or 1) * multiplier
 		end
 	end
 
 	for token, multiplier in RADIUS_SCALE do
 		if input[token] == nil then
-			primitives[token] = math.floor((input.RadiusBase or 6) * multiplier)
+			primitives[token] = (input.RadiusBase or 6) * multiplier
 		end
 	end
 
 	for token, multiplier in STROKE_SCALE do
 		if input[token] == nil then
-			primitives[token] = math.floor((input.StrokeBase or 1) * multiplier)
+			primitives[token] = (input.StrokeBase or 1) * multiplier
 		end
 	end
 
 	for token, multiplier in TRANSPARENCY_SCALE do
 		if input[token] == nil then
-			primitives[token] = math.floor((input.TransparencyBase or 1) * multiplier)
+			primitives[token] = (input.TransparencyBase or 1) * multiplier
 		end
 	end
 

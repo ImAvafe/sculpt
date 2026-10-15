@@ -21,31 +21,23 @@ end
 const function resolvePattern(tag: string, pattern: patterns.Pattern, tagValue: string): Rule?
 	const hardcodedToken = (tokens.all :: tokens.Tokenset)[`{pattern.namespace}-{tagValue}`]
 	const baseMultiplierToken = (tokens.all :: tokens.Tokenset)[pattern.namespace]
+	const multiplier = parseMultiplier(tagValue)
 
-	if hardcodedToken or baseMultiplierToken then
-		const multiplier = parseMultiplier(tagValue)
-		const endValue = if hardcodedToken
-			then hardcodedToken
-			elseif multiplier then baseMultiplierToken * multiplier
-			else nil
+	if hardcodedToken or (baseMultiplierToken and multiplier) then
+		const endValue = if hardcodedToken then hardcodedToken else baseMultiplierToken * multiplier
+		const properties = {}
 
-		print(string.match(tagValue, "^%d+$"))
-
-		if endValue ~= nil then
-			const properties = {}
-
-			for _, property in pattern.properties do
-				if endValue ~= nil then
-					properties[property] = convertValue(property, endValue)
-				end
+		for _, property in pattern.properties do
+			if endValue ~= nil then
+				properties[property] = convertValue(property, endValue)
 			end
+		end
 
-			if next(properties) ~= nil then
-				return {
-					selector = if pattern.pseudoInstance then `.{tag}::{pattern.pseudoInstance}` else `.{tag}`,
-					properties = properties,
-				}
-			end
+		if next(properties) ~= nil then
+			return {
+				selector = if pattern.pseudoInstance then `.{tag}::{pattern.pseudoInstance}` else `.{tag}`,
+				properties = properties,
+			}
 		end
 	end
 
@@ -85,18 +77,4 @@ const function resolveTag(tag: string): Rule?
 	return nil
 end
 
-const function resolveTags(tags: string): { Rule }
-	const rules = {}
-	const separateTags = string.split(tags, " ")
-
-	for _, tag in separateTags do
-		const rule = resolveTag(tag)
-		if rule then
-			table.insert(rules, rule)
-		end
-	end
-
-	return rules
-end
-
-return resolveTags
+return resolveTag

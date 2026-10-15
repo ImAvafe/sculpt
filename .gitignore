@@ -11,3 +11,5 @@ build
 sourcemap.json
 
 /build
+
+.rodeo

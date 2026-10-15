@@ -1,6 +1,3 @@
---!nocheck
---!nolint
-
 local process = require("@lune/process")
 local task = require("@lune/task")
 
@@ -11,9 +8,9 @@ else
 end
 
 task.spawn(function()
-	local sourcemap = process.exec(
+	process.exec(
 		"rojo",
-		{ "sourcemap", "dev.project.json", "--output", "sourcemap.json", "--watch" },
+		{ "sourcemap", "default.project.json", "--output", "sourcemap.json", "--watch" },
 		{ env = process.env, stdio = "forward" }
 	)
 end)
@@ -21,7 +18,19 @@ end)
 task.wait(1)
 
 task.spawn(function()
-	local rojoServe = process.exec("rojo", { "serve", "dev.project.json" }, { env = process.env, stdio = "forward" })
+	process.exec(
+		"darklua",
+		{ "process", "--config", ".darklua.json", "src/", "dist/", "--watch" },
+		{ env = process.env, stdio = "forward" }
+	)
+end)
+
+task.spawn(function()
+	process.exec("rogen", { "watch" }, { env = process.env, stdio = "forward" })
+end)
+
+task.spawn(function()
+	process.exec("rojo", { "serve", "build.project.json" }, { env = process.env, stdio = "forward" })
 end)
 
 print("\nPress Ctrl+C to close all tooling.\n")

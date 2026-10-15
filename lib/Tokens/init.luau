@@ -1,6 +1,7 @@
 local aspect = require("@self/namespaces/aspect")
 local breakpoint = require("@self/namespaces/breakpoint")
 local color = require("@self/namespaces/color")
+local font = require("@self/namespaces/font")
 local fontWeight = require("@self/namespaces/fontWeight")
 local leading = require("@self/namespaces/leading")
 local radius = require("@self/namespaces/radius")
@@ -56,6 +57,7 @@ const PRIMITIVES = {
 	aspect = aspect,
 	breakpoint = breakpoint,
 	color = color,
+	font = font,
 	["font-weight"] = fontWeight,
 	leading = leading,
 	radius = radius,

@@ -14,7 +14,7 @@ The following namespaces could be achieved within the constraints of Roblox's UI
 
 Utility tags are comprised of a **purpose** and a **token input**. For example, `bg-red-500` looks within the `color` namespace for `color-red-500`.
 
-The syntax is near-identical to Tailwind for convenience.
+The syntax is near-identical to Tailwind for convenience. Unlike Tailwind, each utility tag will correspond to only one property type and namespace for convenient auto-generation.
 
 ## Utility modifiers
 

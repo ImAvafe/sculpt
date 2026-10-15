@@ -47,18 +47,9 @@ theme {
 }
 ```
 
-## `utilityClasses`
+## `tilly`
 
-Tailwind-like utility classes.
-
-[ongoing research document](lib/UtilityClasses/research.md)
-
-> [!WARNING]
-> This one is entirely conceptual and undeveloped!
-
-```luau
-no example yet
-```
+For Tailwind-like utility classes, see [Tilly](https://github.com/ImAvafe/tilly)'s repository!
 
 ### `skin`
 
